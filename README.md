@@ -18,7 +18,7 @@ brew install tesseract          # macOS
 ```
 Then, install the package dependencies:
 ```bash
-pip install -r requirements.txt
+pip install -r requirements/base.text
 ```
 
 ## Usage
