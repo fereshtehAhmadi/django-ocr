@@ -49,7 +49,7 @@ curl -X POST -F "image=@sample.jpg" \
 ## Response:
 ````
 {
-  "raw_text": "نام: فرشته\nنام خانوادگی: احمدی\nتاریخ تولد: ۱۳۷۵/۰۲/۱۵",
+  "raw_text": "نام: فرشته\nنام خانوادگی: احمدی",
   "structured_data": {
     "first_name": "فرشته",
     "last_name": "احمدی",
