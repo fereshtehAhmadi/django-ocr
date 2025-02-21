@@ -9,10 +9,10 @@ A lightweight Django-based OCR package that extracts text from images and allows
 - Fully customizable mapping to extract expected information
 
 ## Installation
-You can install `dkano-ocr` using pip:
+You can install `django-ocr` using pip:
 
 ```bash
-pip install dkano-ocr
+pip install django-ocr
 ```
 
 ## Dependencies
@@ -34,7 +34,7 @@ Make sure you have `Tesseract-OCR` installed on your system. If not, install it 
 ### 1. Extract Text from an Image
 
 ```python
-from dkano_ocr import process_image
+from django_ocr import process_image
 
 text = process_image("sample_image.png")
 print(text)  # Output: Extracted text from the image
@@ -50,7 +50,7 @@ Last Name: Doe
 You can map it dynamically:
 
 ```python
-from dkano_ocr import process_image_with_mapping
+from django_ocr import process_image_with_mapping
 
 image_path = "sample_image.png"
 mappings = {
