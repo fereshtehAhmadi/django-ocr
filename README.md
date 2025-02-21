@@ -1,63 +1,93 @@
 # django-ocr
 
-A Django-based OCR (Optical Character Recognition) package that extracts text from images and provides structured data based on user-defined mappings.
+A lightweight Django-based OCR package that extracts text from images and allows dynamic mapping of extracted text into structured dictionaries.
 
 ## Features
 - Extracts text from images using Tesseract OCR
-- Supports Persian text recognition
-- Allows users to define mappings for structured output
-- Provides a simple API endpoint for image-to-text conversion
+- Supports dynamic key-value mapping for structured text output
+- Simple API for easy integration into Django projects
+- Fully customizable mapping to extract expected information
 
 ## Installation
-
-Make sure you have Tesseract OCR installed on your system. You can install it using:
+You can install `dkano-ocr` using pip:
 
 ```bash
-sudo apt install tesseract-ocr  # Ubuntu/Debian
-brew install tesseract          # macOS
+pip install dkano-ocr
 ```
-Then, install the package dependencies:
-```bash
-pip install -r requirements/base.text
-```
+
+## Dependencies
+Make sure you have `Tesseract-OCR` installed on your system. If not, install it using:
+
+- **Ubuntu/Debian:**
+  ```bash
+  sudo apt install tesseract-ocr
+  ```
+- **MacOS:**
+  ```bash
+  brew install tesseract
+  ```
+- **Windows:**
+  Download and install from [Tesseract's official site](https://github.com/tesseract-ocr/tesseract).
 
 ## Usage
-API Endpoint Run the Django server:
-```bash
-python manage.py runserver
-```
-Then, send a POST request to the API endpoint with an image file.
 
-## Extract Raw Text
-If no mappings are provided, the API returns the raw extracted text:
-```bash
-curl -X POST -F "image=@sample.jpg" http://127.0.0.1:8000/api/ocr/
+### 1. Extract Text from an Image
+
+```python
+from dkano_ocr import process_image
+
+text = process_image("sample_image.png")
+print(text)  # Output: Extracted text from the image
 ```
-Response:
-````
-{
-  "raw_text": "نام: فرشته\nنام خانوادگی: احمدی"
+
+### 2. Extract and Map Text to Structured Dictionary
+
+If you have an image containing structured information, such as:
+```
+Name: John
+Last Name: Doe
+```
+You can map it dynamically:
+
+```python
+from dkano_ocr import process_image_with_mapping
+
+image_path = "sample_image.png"
+mappings = {
+    "first_name": ["Name"],
+    "last_name": ["Last Name"]
 }
-````
-## Extract Structured Data
-Users can provide custom mappings for extracting specific fields:
-````
-curl -X POST -F "image=@sample.jpg" \
-     -F 'mappings={"first_name": "نام", "last_name": "نام خانوادگی"}' \
-     http://127.0.0.1:8000/api/ocr/
-````
-## Response:
-````
-{
-  "raw_text": "نام: فرشته\nنام خانوادگی: احمدی",
-  "structured_data": {
-    "first_name": "فرشته",
-    "last_name": "احمدی",
-  }
+
+result = process_image_with_mapping(image_path, mappings)
+print(result)
+# Output: {'first_name': 'John', 'last_name': 'Doe'}
+```
+
+## API Reference
+
+### `process_image(image_path: str) -> str`
+Extracts text from an image and returns it as a string.
+
+### `process_image_with_mapping(image_path: str, mappings: dict) -> dict`
+Extracts text from an image and maps values to a structured dictionary based on provided mappings.
+
+- `image_path`: Path to the image file
+- `mappings`: A dictionary where keys represent desired output fields, and values are lists of keywords to search for
+
+## Customization
+You can define your own mappings dynamically based on the expected text format.
+
+Example for extracting an ID and an email:
+```python
+mappings = {
+    "user_id": ["ID", "User ID"],
+    "email": ["Email"]
 }
-````
+```
+
 ## Contributing
-Contributions are welcome! Feel free to submit issues or pull requests.
+Feel free to open issues or submit pull requests to improve this package!
 
 ## License
-This project is licensed under the MIT License.
+MIT License
+
